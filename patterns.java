@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Scanner;
 
-class Solution {
+class PatternSolution {
     private static HashMap<String, Patterns> registry = new HashMap<String, Patterns>();
 
     static {
@@ -30,6 +30,7 @@ class Solution {
     }
 
     public static void main(String[] args) {
+        System.out.println("Running: " + PatternSolution.class.getName());
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter the pattern number: ");
