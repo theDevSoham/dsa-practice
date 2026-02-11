@@ -5,6 +5,7 @@ class Sorting2Solution {
 
     static {
         sortRegistry.put(1, new MergeSort());
+        sortRegistry.put(2, new QuickSort());
     }
 
     public static void main(String[] args) {
@@ -19,6 +20,7 @@ class Sorting2Solution {
 
         System.out.println("\nChoose sorting algorithm:");
         System.out.println("1 - Merge Sort");
+        System.out.println("2 - Quick Sort");
 
         int choice = scanner.nextInt();
 
@@ -55,7 +57,13 @@ class MergeSort implements Sort {
      * Divide and Merge
      * In arrays we have to play with indexes and not actually divide the array
      * We take low and high: Low represents the starting point of a hypothetical
-     * arrat and high represents the end of same
+     * array and high represents the end of same
+     * Follows divide and conquer
+     * Break array till one element and then arrange them in the correct order
+     * Time complexity: O(NlogN) because N for traversing the full array and log N
+     * for merging/arranging each broken piece
+     * Space complexity: O(N) as we use temporary array to store the correct
+     * arranged order before applying it to the actual array
      */
     public void sort(int[] arr, int size) {
         mergeSort(arr, size, 0, size - 1);
@@ -104,5 +112,47 @@ class MergeSort implements Sort {
         for (int index = low; index <= high; index++) {
             arr[index] = temp[index - low];
         }
+    }
+}
+
+class QuickSort implements Sort {
+    public void sort(int[] arr, int size) {
+        quickSort(arr, 0, size - 1);
+    }
+
+    private void quickSort(int[] arr, int low, int high) {
+        if (low >= high)
+            return;
+
+        int partition = partitionIndex(arr, low, high);
+        quickSort(arr, low, partition - 1);
+        quickSort(arr, partition + 1, high);
+    }
+
+    private int partitionIndex(int[] arr, int low, int high) {
+        int pivot = low;
+        int i = low;
+        int j = high;
+
+        while (i < j) {
+            while (arr[i] <= arr[pivot] && i <= high - 1)
+                i++;
+            while (arr[j] > arr[pivot] && j >= low + 1)
+                j--;
+
+            if (i < j)
+                Swap.swapByIndex(i, j, arr);
+
+        }
+        Swap.swapByIndex(pivot, j, arr);
+        return j;
+    }
+}
+
+class Swap {
+    public static void swapByIndex(int i, int j, int[] arr) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 }
