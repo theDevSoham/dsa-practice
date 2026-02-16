@@ -6,6 +6,8 @@ class Sorting2Solution {
     static {
         sortRegistry.put(1, new MergeSort());
         sortRegistry.put(2, new QuickSort());
+        sortRegistry.put(3, new RecursiveBubbleSort());
+        sortRegistry.put(4, new RecursiveInsertionSort());
     }
 
     public static void main(String[] args) {
@@ -21,6 +23,8 @@ class Sorting2Solution {
         System.out.println("\nChoose sorting algorithm:");
         System.out.println("1 - Merge Sort");
         System.out.println("2 - Quick Sort");
+        System.out.println("3 - Recursive Bubble Sort");
+        System.out.println("4 - Recursive Insertion Sort");
 
         int choice = scanner.nextInt();
 
@@ -146,6 +150,45 @@ class QuickSort implements Sort {
         }
         Swap.swapByIndex(pivot, j, arr);
         return j;
+    }
+}
+
+class RecursiveBubbleSort implements Sort {
+    public void sort(int[] arr, int size) {
+        bubbleSort(arr, size - 1);
+    }
+
+    private void bubbleSort(int[] arr, int length) {
+        if (length <= 0) return;
+
+        boolean swapped = false;
+        for (int j = 0; j < length; j++) {
+            if (arr[j] > arr[j + 1]) {
+                Swap.swapByIndex(j + 1, j, arr);
+                swapped = true;
+            }
+        }
+        if (swapped) {
+            bubbleSort(arr, length - 1);
+        }
+    }
+}
+
+class RecursiveInsertionSort implements Sort {
+    public void sort(int[] arr, int size) {
+        insertionSort(arr, size - 1);
+    }
+
+    private void insertionSort(int[] arr, int length) {
+        if (length <= 0) return;
+
+        insertionSort(arr, length - 1);
+
+        int j = length;
+        while(j > 0 && arr[j] < arr[j - 1]) {
+            Swap.swapByIndex(j - 1, j, arr);
+            j--;
+        }
     }
 }
 
